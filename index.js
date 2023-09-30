@@ -3,8 +3,10 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 3000;
 const axios = require('axios');
+const cors = require('cors');
 
 app.use(bodyParser.json());
+app.use(cors());
 
 app.post('/sms', (req, res) => {
     // Handle the SMS request here
