@@ -6,7 +6,10 @@ const axios = require('axios');
 const cors = require('cors');
 
 app.use(bodyParser.json());
-app.use(cors());
+// app.use(cors());
+app.use(cors({
+    origin: '*'
+}));
 
 app.post('/sms', (req, res) => {
     // Handle the SMS request here
