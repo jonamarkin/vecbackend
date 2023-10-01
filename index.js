@@ -108,35 +108,41 @@ app.post('/sendBulk', (req, res) => {
             number = fomatNumber(number);
             phoneNumbers.push(number);
         });
+    }).then(() => {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Basic aG9wdWN4eXg6cnpxZXB4dWk=");
+
+        var raw = JSON.stringify({
+            "From": "VEC@10",
+            "Recipients": phoneNumbers,
+            "Content": "Hello, Kindly help us save hearts! Contribute easily through this link: https://p.hbtl.co/B5x7Nk. You can use Momo or debit card to pay with this link.\n \n Want to pledge? Just click here: https://forms.gle/9ZH5KyjfBRBYQas4A. \nGod bless you!"
+        });
+
+        var requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch("https://sms.hubtel.com/v1/messages/batch/simple/send", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .then(res.json({
+                message: 'SMS received and processed successfully!',
+                code: 200
+            }))
+            .catch(error => console.log('error', error));
+    }).catch((err) => {
+        console.log('Error getting documents', err);
+        res.json({
+            message: 'SMS not sent!',
+            code: 500
+        });
     });
-
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-    myHeaders.append("Authorization", "Basic aG9wdWN4eXg6cnpxZXB4dWk=");
-
-    var raw = JSON.stringify({
-        "From": "VEC@10",
-        "Recipients": phoneNumbers,
-        "Content": "Hello, Kindly help us save hearts! Contribute easily through this link: https://p.hbtl.co/B5x7Nk. You can use Momo or debit card to pay with this link.\n \n Want to pledge? Just click here: https://forms.gle/9ZH5KyjfBRBYQas4A. \nGod bless you!"
-    });
-
-    var requestOptions = {
-        method: 'POST',
-        headers: myHeaders,
-        body: raw,
-        redirect: 'follow'
-    };
-
-    fetch("https://sms.hubtel.com/v1/messages/batch/simple/send", requestOptions)
-        .then(response => response.text())
-        .then(result => console.log(result))
-        .then(res.json({
-            message: 'SMS received and processed successfully!',
-            code: 200
-        }))
-        .catch(error => console.log('error', error));
-
 });
+
 
 const fomatNumber = (number) => {
     if (number.startsWith('0') && number.length == 10) {
