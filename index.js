@@ -38,7 +38,7 @@ app.post('/sms', (req, res) => {
     let data = JSON.stringify({
         "From": "VEC@10",
         "To": number,
-        "Content": "Hello " + userdata.firstname + ", Welcome to Harmony Of A Decade. Your registration was successful. We will keep you updated on all our events. Download the brochure here <a href='https://bit.ly/hodprogram'>here</a>."
+        "Content": "Hello " + userdata.firstname + ", Welcome to Harmony Of A Decade. Your registration was successful. We will keep you updated on all our events. Download the brochure here https://bit.ly/hodprogram ."
     });
 
 
