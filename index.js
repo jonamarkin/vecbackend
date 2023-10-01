@@ -96,7 +96,7 @@ app.post('/sendBulk', (req, res) => {
 
     //Fetch all numbers from database
     const db = admin.firestore();
-    const usersRef = db.collection('uat_audiences');
+    const usersRef = db.collection('audiences');
     const phoneNumbers = [];
 
     usersRef.get().then((snapshot) => {
