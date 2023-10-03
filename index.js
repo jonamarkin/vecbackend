@@ -116,7 +116,7 @@ app.post('/sendBulk', (req, res) => {
         var raw = JSON.stringify({
             "From": "VEC@10",
             "Recipients": phoneNumbers,
-            "Content": "Hello, Kindly help us save hearts! Contribute easily through this link: https://p.hbtl.co/B5x7Nk. You can use Momo or debit card to pay with this link.\n \n Want to pledge? Just click here: https://forms.gle/9ZH5KyjfBRBYQas4A. \nGod bless you!"
+            "Content": message
         });
 
         var requestOptions = {
