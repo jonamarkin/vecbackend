@@ -48,7 +48,7 @@ app.post('/sms', (req, res) => {
     let data = JSON.stringify({
         "From": "VEC@10",
         "To": number,
-        "Content": "Hello " + userdata.firstname + ", Welcome to Harmony Of A Decade. Your registration was successful. We will keep you updated on all our events. Download the brochure here https://bit.ly/vechod ."
+        "Content": "Hello " + userdata.firstname + ", Welcome to Feliz Navidad 10. Your registration was successful. We will keep you updated on all our events. Find videos from our events on our YouTube channel. https://www.youtube.com/@VocalEssenceChoraleGhana"
     });
 
 
