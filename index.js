@@ -4,6 +4,9 @@ const app = express();
 const port = process.env.PORT || 3000;
 const axios = require('axios');
 const cors = require('cors');
+const ExcelJS = require('exceljs');
+const fs = require('fs');
+const path = require('path');
 
 app.use(bodyParser.json());
 // app.use(cors());
@@ -45,10 +48,17 @@ app.post('/sms', (req, res) => {
         number = number.replace(' ', '');
     }
 
+    // let data = JSON.stringify({
+    //     "From": "VECGhana",
+    //     "To": number,
+    //     "Content": "Ho! Ho! Ho! \n + , Welcome to Feliz Navidad 11. Your registration was successful. We will keep you updated on all our events. Find videos from our events on our YouTube channel. https://www.youtube.com/@VocalEssenceChoraleGhana"
+    // });
+
+
     let data = JSON.stringify({
-        "From": "VEC@10",
+        "From": "VECGhana",
         "To": number,
-        "Content": "Hello " + userdata.firstname + ", Welcome to Feliz Navidad 10. Your registration was successful. We will keep you updated on all our events. Find videos from our events on our YouTube channel. https://www.youtube.com/@VocalEssenceChoraleGhana"
+        "Content": "Ho! Ho! Ho! \n + , Feliz Navidad 11 comes off on 24th Nov. 2024 at the Victory Bible Church International, Awoshie- Baah Yard. \nPurchase tickets at https://egtks.com/e/48468 or dial *713*33*762# \nCome ready to praise and dance your way into Christmas and the new year. We have lots of gifts for you as well. Don't miss out!"
     });
 
 
@@ -143,6 +153,65 @@ app.post('/sendBulk', (req, res) => {
     });
 });
 
+
+app.get('/count', async (req, res) => {
+    try {
+        const db = admin.firestore();
+        const snapshot = await db.collection('audiences').get();
+        const count = snapshot.size;
+        res.json({ count });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+
+
+app.get('/export', async (req, res) => {
+    try {
+        const db = admin.firestore();
+        const snapshot = await db.collection('audiences').get();
+        const workbook = new ExcelJS.Workbook();
+        const worksheet = workbook.addWorksheet('Audiences');
+
+        worksheet.columns = [
+            // { header: 'ID', key: 'id', width: 30 },
+            { header: 'First Name', key: 'firstname', width: 20 },
+            { header: 'Last Name', key: 'lastname', width: 20 },
+            { header: 'Phone', key: 'phone', width: 20 },
+            { header: 'Email', key: 'email', width: 30 },
+            { header: 'Category', key: 'category', width: 20 },
+
+            // { header: 'Events Attended', key: 'events_attended', width: 30 },
+
+
+            // { header: 'Registered By', key: 'registered_by', width: 20 },
+            // { header: 'Registered On', key: 'registered_on', width: 30 }
+        ];
+
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            worksheet.addRow({
+                id: doc.id,
+                category: data.category,
+                email: data.email,
+                events_attended: JSON.stringify(data.events_attended),
+                firstname: data.firstname,
+                lastname: data.lastname,
+                phone: data.phone,
+                registered_by: data.registered_by,
+                registered_on: data.registered_on
+            });
+        });
+
+        const filePath = path.join(__dirname, 'audiences.xlsx');
+        await workbook.xlsx.writeFile(filePath);
+
+        res.json({ message: 'Excel file has been saved', filePath });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 
 const fomatNumber = (number) => {
     if (number.startsWith('0') && number.length == 10) {
