@@ -48,18 +48,18 @@ app.post('/sms', (req, res) => {
         number = number.replace(' ', '');
     }
 
-    // let data = JSON.stringify({
-    //     "From": "VECGhana",
-    //     "To": number,
-    //     "Content": "Ho! Ho! Ho! \n + , Welcome to Feliz Navidad 11. Your registration was successful. We will keep you updated on all our events. Find videos from our events on our YouTube channel. https://www.youtube.com/@VocalEssenceChoraleGhana"
-    // });
-
-
     let data = JSON.stringify({
         "From": "VECGhana",
         "To": number,
-        "Content": "Ho! Ho! Ho! \n + , Feliz Navidad 11 comes off on 24th Nov. 2024 at the Victory Bible Church International, Awoshie- Baah Yard. \nPurchase tickets at https://egtks.com/e/48468 or dial *713*33*762# \nCome ready to praise and dance your way into Christmas and the new year. We have lots of gifts for you as well. Don't miss out!"
+        "Content": `Ho! Ho! Ho! \n + , Welcome to Feliz Navidad 11. Your registration number is ${userdata.regNumber}. Keep this number safe and wait for Santa! \n We will keep you updated on all our events. Find videos from our events on our YouTube channel. https://www.youtube.com/@VocalEssenceChoraleGhana`
     });
+
+
+    // let data = JSON.stringify({
+    //     "From": "VECGhana",
+    //     "To": number,
+    //     "Content": "Ho! Ho! Ho! \n + , Feliz Navidad 11 comes off on 24th Nov. 2024 at the Victory Bible Church International, Awoshie- Baah Yard. \nPurchase tickets at https://egtks.com/e/48468 or dial *713*33*762# \nCome ready to praise and dance your way into Christmas and the new year. We have lots of gifts for you as well. Don't miss out!"
+    // });
 
 
 
