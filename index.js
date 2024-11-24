@@ -213,6 +213,50 @@ app.get('/export', async (req, res) => {
     }
 });
 
+//Add new audience data to the database
+app.post('/audience', async (req, res) => {
+    try {
+        const db = admin.firestore();
+        const users = [
+            { category: "special", email: "", events_attended: [], firstname: "Mavis Hawa", lastname: "Koomson", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Georgina", lastname: "Wood", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "David", lastname: "Agyefi-Mensah", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Stephen", lastname: "Obeng-Amoako", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Akua", lastname: "Boateng", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "George K.", lastname: "Amakye", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Mr. And Mrs.", lastname: "Dua-Ansah", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Otu", lastname: "", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Eunice", lastname: "Tornyi", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Vida", lastname: "Brewu", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Sampson", lastname: "Agyapong", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Anthony", lastname: "Arthur", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "John", lastname: "Amoako Atta", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Abraham", lastname: "Quarmyne", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Dominic", lastname: "Derby", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Lordina", lastname: "The Soprano", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Jasmine", lastname: "Koomson", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Nathaniel", lastname: "Addy", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Alfred Patrick", lastname: "Addaquay", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Sophia", lastname: "Clement", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" },
+            { category: "special", email: "", events_attended: [], firstname: "Jennifer", lastname: "Bonney", phone: "", registered_by: "admin", registered_on: "29 September 2023 at 22:44:17 UTC+2" }
+        ];
+
+        const batch = db.batch();
+
+        users.forEach(user => {
+            const docRef = db.collection('uat_audiences').doc();
+            batch.set(docRef, user);
+        });
+
+        await batch.commit();
+
+        res.json({ message: 'Audience data added successfully' });
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
+
+
 const fomatNumber = (number) => {
     if (number.startsWith('0') && number.length == 10) {
         number = number.replace('0', '233');
