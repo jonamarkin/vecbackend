@@ -51,7 +51,7 @@ app.post('/sms', (req, res) => {
     let data = JSON.stringify({
         "From": "VECGhana",
         "To": number,
-        "Content": `Ho! Ho! Ho! \n + , Welcome to Feliz Navidad 11. Keep your number safe and wait for Santa! \n We will keep you updated on all our events. Find videos from our events on our YouTube channel. https://www.youtube.com/@VocalEssenceChoraleGhana`
+        "Content": `Ho! Ho! Ho! \n + , Welcome to Feliz Navidad - 12th Noel. Keep your number safe and wait for Santa! \n We will keep you updated on all our events. Find videos from our events on our YouTube channel. https://www.youtube.com/@VocalEssenceChoraleGhana`
     });
 
 
