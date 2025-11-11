@@ -1,0 +1,35 @@
+name: 🚀 Build and Push Docker image
+
+on:
+  push:
+    branches: ["main"] # or "master" depending on your repo
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout your code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Set up Docker Buildx (for multi-platform builds)
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Log in to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      # Build and push Docker image
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/vecbackend:latest
+            ${{ secrets.DOCKERHUB_USERNAME }}/vecbackend:${{ github.sha }}
